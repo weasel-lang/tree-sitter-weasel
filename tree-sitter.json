@@ -1,0 +1,55 @@
+{
+  "grammars": [
+    {
+      "name": "weasel",
+      "camelcase": "weasel",
+      "scope": "source.weasel",
+      "path": ".",
+      "file-types": [
+        "weasel",
+        "ccx"
+      ],
+      "highlights": [
+        "node_modules/tree-sitter-c/queries/highlights.scm",
+        "queries/highlights.scm"
+      ],
+      "injections": "queries/injections.scm",
+      "tags": "queries/tags.scm",
+      "injection-regex": "^(weasel|ccx)$"
+    }
+  ],
+  "metadata": {
+    "version": "0.23.4",
+    "license": "MIT",
+    "description": "Weasel grammar for tree-sitter",
+    "authors": [
+      {
+        "name": "Max Brunsfeld",
+        "email": "maxbrunsfeld@gmail.com"
+      },
+      {
+        "name": "Amaan Qureshi",
+        "email": "amaanq12@gmail.com"
+      },
+      {
+        "name": "John Drouhard",
+        "email": "john@drouhard.dev"
+      },
+      {
+        "name": "Greger Olsson",
+        "email": "greger.olsson@veriscan.se"
+      }
+    ],
+    "links": {
+      "repository": "https://github.com/weasel-lang/tree-sitter-weasel"
+    }
+  },
+  "bindings": {
+    "c": true,
+    "go": true,
+    "node": true,
+    "python": true,
+    "rust": true,
+    "swift": true
+  }
+}
