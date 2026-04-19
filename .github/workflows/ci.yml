@@ -2,20 +2,18 @@ name: CI
 
 on:
   push:
-    branches: [master]
+    branches: [main]
     paths:
       - grammar.js
       - src/**
       - test/**
-      - bindings/**
-      - binding.gyp
+      - queries/**
   pull_request:
     paths:
       - grammar.js
       - src/**
       - test/**
-      - bindings/**
-      - binding.gyp
+      - queries/**
 
 concurrency:
   group: ${{github.workflow}}-${{github.ref}}
@@ -32,23 +30,10 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v5
-      - name: Checkout tree-sitter-c
-        uses: actions/checkout@v5
-        with:
-          repository: tree-sitter/tree-sitter-c
-          path: node_modules/tree-sitter-c
-          sparse-checkout: queries/
-          ref: v0.24.1
       - name: Set up tree-sitter
         uses: tree-sitter/setup-action/cli@v2
       - name: Run tests
         uses: tree-sitter/parser-test-action@v3
-        with:
-          test-rust: true
-          # test-node: true
-          test-python: true
-          test-go: true
-          test-swift: true
       - name: Parse examples
         uses: tree-sitter/parse-action@v4
         with:
