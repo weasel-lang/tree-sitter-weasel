@@ -184,6 +184,14 @@
         "named": true
       },
       {
+        "type": "ccx_element",
+        "named": true
+      },
+      {
+        "type": "ccx_self_closing_element",
+        "named": true
+      },
+      {
         "type": "char_literal",
         "named": true
       },
@@ -1441,6 +1449,415 @@
     }
   },
   {
+    "type": "ccx_attribute",
+    "named": true,
+    "fields": {
+      "expression": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "expression",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ccx_attribute_name",
+            "named": true
+          }
+        ]
+      },
+      "value": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "string_literal",
+            "named": true
+          },
+          {
+            "type": "{",
+            "named": false
+          },
+          {
+            "type": "}",
+            "named": false
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "ccx_body",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "ccx_child",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "ccx_child",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "ccx_element",
+          "named": true
+        },
+        {
+          "type": "ccx_expression_child",
+          "named": true
+        },
+        {
+          "type": "ccx_self_closing_element",
+          "named": true
+        },
+        {
+          "type": "ccx_text",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "ccx_closing_element",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ccx_tag_name",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "ccx_element",
+    "named": true,
+    "fields": {
+      "close": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ccx_closing_element",
+            "named": true
+          }
+        ]
+      },
+      "open": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ccx_opening_element",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "ccx_child",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "ccx_expression_child",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "ccx_for_expression",
+          "named": true
+        },
+        {
+          "type": "ccx_for_range_expression",
+          "named": true
+        },
+        {
+          "type": "ccx_if_expression",
+          "named": true
+        },
+        {
+          "type": "ccx_while_expression",
+          "named": true
+        },
+        {
+          "type": "expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "ccx_for_expression",
+    "named": true,
+    "fields": {
+      "body": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ccx_body",
+            "named": true
+          }
+        ]
+      },
+      "condition": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "expression",
+            "named": true
+          }
+        ]
+      },
+      "init": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "declaration",
+            "named": true
+          },
+          {
+            "type": "expression_statement",
+            "named": true
+          }
+        ]
+      },
+      "update": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "comma_expression",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "ccx_for_range_expression",
+    "named": true,
+    "fields": {
+      "body": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ccx_body",
+            "named": true
+          }
+        ]
+      },
+      "declarator": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "_declarator",
+            "named": true
+          }
+        ]
+      },
+      "right": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "expression",
+            "named": true
+          },
+          {
+            "type": "initializer_list",
+            "named": true
+          }
+        ]
+      },
+      "type": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "type_specifier",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "attribute_declaration",
+          "named": true
+        },
+        {
+          "type": "attribute_specifier",
+          "named": true
+        },
+        {
+          "type": "ms_declspec_modifier",
+          "named": true
+        },
+        {
+          "type": "storage_class_specifier",
+          "named": true
+        },
+        {
+          "type": "type_qualifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "ccx_if_expression",
+    "named": true,
+    "fields": {
+      "alternative": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "ccx_body",
+            "named": true
+          }
+        ]
+      },
+      "condition": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "parenthesized_expression",
+            "named": true
+          }
+        ]
+      },
+      "consequence": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ccx_body",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "ccx_opening_element",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ccx_tag_name",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "ccx_attribute",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "ccx_self_closing_element",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ccx_tag_name",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "ccx_attribute",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "ccx_while_expression",
+    "named": true,
+    "fields": {
+      "body": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ccx_body",
+            "named": true
+          }
+        ]
+      },
+      "condition": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "parenthesized_expression",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "char_literal",
     "named": true,
     "fields": {},
@@ -1614,6 +2031,42 @@
     }
   },
   {
+    "type": "component_declaration",
+    "named": true,
+    "fields": {
+      "body": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "compound_statement",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "parameters": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "parameter_list",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "compound_literal_expression",
     "named": true,
     "fields": {
@@ -1692,6 +2145,10 @@
       "types": [
         {
           "type": "alias_declaration",
+          "named": true
+        },
+        {
+          "type": "component_declaration",
           "named": true
         },
         {
@@ -2230,6 +2687,10 @@
           "named": true
         },
         {
+          "type": "component_declaration",
+          "named": true
+        },
+        {
           "type": "concept_definition",
           "named": true
         },
@@ -2711,6 +3172,10 @@
       "types": [
         {
           "type": "alias_declaration",
+          "named": true
+        },
+        {
+          "type": "component_declaration",
           "named": true
         },
         {
@@ -5334,6 +5799,10 @@
           "named": true
         },
         {
+          "type": "component_declaration",
+          "named": true
+        },
+        {
           "type": "concept_definition",
           "named": true
         },
@@ -5494,6 +5963,10 @@
           "named": true
         },
         {
+          "type": "component_declaration",
+          "named": true
+        },
+        {
           "type": "concept_definition",
           "named": true
         },
@@ -5622,6 +6095,10 @@
         },
         {
           "type": "alias_declaration",
+          "named": true
+        },
+        {
+          "type": "component_declaration",
           "named": true
         },
         {
@@ -5849,6 +6326,10 @@
           "named": true
         },
         {
+          "type": "component_declaration",
+          "named": true
+        },
+        {
           "type": "concept_definition",
           "named": true
         },
@@ -6006,6 +6487,10 @@
         },
         {
           "type": "alias_declaration",
+          "named": true
+        },
+        {
+          "type": "component_declaration",
           "named": true
         },
         {
@@ -7284,6 +7769,10 @@
           "named": true
         },
         {
+          "type": "component_declaration",
+          "named": true
+        },
+        {
           "type": "compound_statement",
           "named": true
         },
@@ -8093,6 +8582,10 @@
     "named": false
   },
   {
+    "type": "/>",
+    "named": false
+  },
+  {
     "type": ":",
     "named": false
   },
@@ -8110,6 +8603,10 @@
   },
   {
     "type": "<",
+    "named": false
+  },
+  {
+    "type": "</",
     "named": false
   },
   {
@@ -8405,6 +8902,18 @@
     "named": false
   },
   {
+    "type": "ccx_attribute_name",
+    "named": true
+  },
+  {
+    "type": "ccx_tag_name",
+    "named": true
+  },
+  {
+    "type": "ccx_text",
+    "named": true
+  },
+  {
     "type": "character",
     "named": true
   },
@@ -8431,6 +8940,10 @@
   },
   {
     "type": "compl",
+    "named": false
+  },
+  {
+    "type": "component",
     "named": false
   },
   {

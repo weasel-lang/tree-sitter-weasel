@@ -18,6 +18,7 @@ const PREC = Object.assign(C.PREC, {
   NEW: C.PREC.CALL + 1,
   STRUCTURED_BINDING: -1,
   THREE_WAY: C.PREC.RELATIONAL + 1,
+  CCX: 19,
 });
 
 const FOLD_OPERATORS = [
@@ -106,6 +107,7 @@ module.exports = grammar(C, {
     [$.qualified_field_identifier, $.template_method, $.template_type],
     [$.type_specifier, $.template_type, $.template_function, $.expression],
     [$.splice_type_specifier, $.splice_expression],
+
   ],
 
   inline: ($, original) => original.concat([
@@ -137,6 +139,7 @@ module.exports = grammar(C, {
       alias($.constructor_or_destructor_definition, $.function_definition),
       alias($.operator_cast_definition, $.function_definition),
       alias($.operator_cast_declaration, $.declaration),
+      $.component_declaration,
     ),
 
     _block_item: ($, original) => choice(
@@ -160,6 +163,7 @@ module.exports = grammar(C, {
       alias($.constructor_or_destructor_definition, $.function_definition),
       alias($.operator_cast_definition, $.function_definition),
       alias($.operator_cast_declaration, $.declaration),
+      $.component_declaration,
     ),
 
     ...preprocIf('', $ => $._top_level_item),
@@ -1044,6 +1048,8 @@ module.exports = grammar(C, {
       $.fold_expression,
       $.reflect_expression,
       $.splice_expression,
+      $.ccx_element,
+      $.ccx_self_closing_element,
     ),
 
     _string: $ => choice(
@@ -1600,5 +1606,126 @@ module.exports = grammar(C, {
     ),
 
     _namespace_identifier: $ => alias($.identifier, $.namespace_identifier),
+
+    // ── CCX (C++ Components eXtended) ──────────────────────────────────────
+
+    component_declaration: $ => seq(
+      'component',
+      field('name', $.identifier),
+      field('parameters', $.parameter_list),
+      field('body', $.compound_statement),
+    ),
+
+    ccx_element: $ => prec(PREC.CCX, seq(
+      field('open', $.ccx_opening_element),
+      repeat($.ccx_child),
+      field('close', $.ccx_closing_element),
+    )),
+
+    ccx_opening_element: $ => seq(
+      '<',
+      field('name', $.ccx_tag_name),
+      repeat($.ccx_attribute),
+      '>',
+    ),
+
+    ccx_closing_element: $ => seq(
+      '</',
+      field('name', $.ccx_tag_name),
+      '>',
+    ),
+
+    ccx_self_closing_element: $ => seq(
+      '<',
+      field('name', $.ccx_tag_name),
+      repeat($.ccx_attribute),
+      '/>',
+    ),
+
+    ccx_tag_name: _ => /[a-zA-Z_][a-zA-Z0-9_]*(-[a-zA-Z0-9_]+)*/,
+
+    ccx_text: _ => /[^<{}]+/,
+
+    ccx_attribute: $ => choice(
+      seq(
+        field('name', $.ccx_attribute_name),
+        '=',
+        field('value', choice(
+          $.string_literal,
+          seq('{', field('expression', $.expression), '}'),
+        )),
+      ),
+      field('name', $.ccx_attribute_name),
+    ),
+
+    ccx_attribute_name: _ => /[a-zA-Z_][a-zA-Z0-9_-]*/,
+
+    ccx_child: $ => choice(
+      $.ccx_text,
+      $.ccx_element,
+      $.ccx_self_closing_element,
+      $.ccx_expression_child,
+    ),
+
+    ccx_expression_child: $ => seq(
+      '{',
+      choice(
+        $.ccx_if_expression,
+        $.ccx_for_range_expression,
+        $.ccx_for_expression,
+        $.ccx_while_expression,
+        $.expression,
+      ),
+      '}',
+    ),
+
+    ccx_if_expression: $ => seq(
+      'if',
+      field('condition', $.parenthesized_expression),
+      field('consequence', $.ccx_body),
+      repeat(seq(
+        'else', 'if',
+        field('condition', $.parenthesized_expression),
+        field('alternative', $.ccx_body),
+      )),
+      optional(seq(
+        'else',
+        field('alternative', $.ccx_body),
+      )),
+    ),
+
+    ccx_for_range_expression: $ => seq(
+      'for',
+      '(',
+      $._declaration_specifiers,
+      field('declarator', $._declarator),
+      ':',
+      field('right', choice($.expression, $.initializer_list)),
+      ')',
+      field('body', $.ccx_body),
+    ),
+
+    ccx_for_expression: $ => seq(
+      'for',
+      '(',
+      field('init', choice($.declaration, $.expression_statement)),
+      optional(field('condition', $.expression)),
+      ';',
+      optional(field('update', $.comma_expression)),
+      ')',
+      field('body', $.ccx_body),
+    ),
+
+    ccx_while_expression: $ => seq(
+      'while',
+      field('condition', $.parenthesized_expression),
+      field('body', $.ccx_body),
+    ),
+
+    ccx_body: $ => seq(
+      '{',
+      repeat($.ccx_child),
+      '}',
+    ),
   },
 });

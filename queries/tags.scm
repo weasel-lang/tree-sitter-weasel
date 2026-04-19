@@ -13,3 +13,5 @@
 (enum_specifier name: (type_identifier) @name) @definition.type
 
 (class_specifier name: (type_identifier) @name) @definition.class
+
+(component_declaration name: (identifier) @name) @definition.function

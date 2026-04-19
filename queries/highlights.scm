@@ -72,6 +72,19 @@
  "module"
 ] @keyword
 
+; CCX (C++ Components eXtended)
+
+(component_declaration "component" @keyword.function)
+(component_declaration name: (identifier) @function)
+
+(ccx_opening_element name: (ccx_tag_name) @tag)
+(ccx_closing_element name: (ccx_tag_name) @tag)
+(ccx_self_closing_element name: (ccx_tag_name) @tag)
+
+(ccx_attribute name: (ccx_attribute_name) @attribute)
+
+(ccx_text) @string.special
+
 ; Strings
 
 (raw_string_literal) @string

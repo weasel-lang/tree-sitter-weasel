@@ -1,0 +1,383 @@
+================================================================================
+Self-closing element
+================================================================================
+
+weasel::node n = <br />;
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (declaration
+    (qualified_identifier
+      (namespace_identifier)
+      (type_identifier))
+    (init_declarator
+      (identifier)
+      (ccx_self_closing_element
+        (ccx_tag_name)))))
+
+================================================================================
+Element with string attribute
+================================================================================
+
+weasel::node n = <div class="foo"></div>;
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (declaration
+    (qualified_identifier
+      (namespace_identifier)
+      (type_identifier))
+    (init_declarator
+      (identifier)
+      (ccx_element
+        (ccx_opening_element
+          (ccx_tag_name)
+          (ccx_attribute
+            (ccx_attribute_name)
+            (string_literal
+              (string_content))))
+        (ccx_closing_element
+          (ccx_tag_name))))))
+
+================================================================================
+Element with expression attribute
+================================================================================
+
+weasel::node n = <div class={x}></div>;
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (declaration
+    (qualified_identifier
+      (namespace_identifier)
+      (type_identifier))
+    (init_declarator
+      (identifier)
+      (ccx_element
+        (ccx_opening_element
+          (ccx_tag_name)
+          (ccx_attribute
+            (ccx_attribute_name)
+            (identifier)))
+        (ccx_closing_element
+          (ccx_tag_name))))))
+
+================================================================================
+Boolean attribute
+================================================================================
+
+weasel::node n = <input disabled />;
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (declaration
+    (qualified_identifier
+      (namespace_identifier)
+      (type_identifier))
+    (init_declarator
+      (identifier)
+      (ccx_self_closing_element
+        (ccx_tag_name)
+        (ccx_attribute
+          (ccx_attribute_name))))))
+
+================================================================================
+Expression child
+================================================================================
+
+weasel::node n = <span>{msg}</span>;
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (declaration
+    (qualified_identifier
+      (namespace_identifier)
+      (type_identifier))
+    (init_declarator
+      (identifier)
+      (ccx_element
+        (ccx_opening_element
+          (ccx_tag_name))
+        (ccx_child
+          (ccx_expression_child
+            (identifier)))
+        (ccx_closing_element
+          (ccx_tag_name))))))
+
+================================================================================
+Text child
+================================================================================
+
+weasel::node n = <p>hello</p>;
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (declaration
+    (qualified_identifier
+      (namespace_identifier)
+      (type_identifier))
+    (init_declarator
+      (identifier)
+      (ccx_element
+        (ccx_opening_element
+          (ccx_tag_name))
+        (ccx_child
+          (ccx_text))
+        (ccx_closing_element
+          (ccx_tag_name))))))
+
+================================================================================
+Nested elements
+================================================================================
+
+weasel::node n = <ul><li>{x}</li></ul>;
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (declaration
+    (qualified_identifier
+      (namespace_identifier)
+      (type_identifier))
+    (init_declarator
+      (identifier)
+      (ccx_element
+        (ccx_opening_element
+          (ccx_tag_name))
+        (ccx_child
+          (ccx_element
+            (ccx_opening_element
+              (ccx_tag_name))
+            (ccx_child
+              (ccx_expression_child
+                (identifier)))
+            (ccx_closing_element
+              (ccx_tag_name))))
+        (ccx_closing_element
+          (ccx_tag_name))))))
+
+================================================================================
+Component declaration
+================================================================================
+
+component badge(const badge_props& p) {
+    return <span>{p.label}</span>;
+}
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (component_declaration
+    (identifier)
+    (parameter_list
+      (parameter_declaration
+        (type_qualifier)
+        (type_identifier)
+        (reference_declarator
+          (identifier))))
+    (compound_statement
+      (return_statement
+        (ccx_element
+          (ccx_opening_element
+            (ccx_tag_name))
+          (ccx_child
+            (ccx_expression_child
+              (field_expression
+                (identifier)
+                (field_identifier))))
+          (ccx_closing_element
+            (ccx_tag_name)))))))
+
+================================================================================
+If expression child
+================================================================================
+
+weasel::node n = <div>{if (x) {<p>yes</p>} else {<p>no</p>}}</div>;
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (declaration
+    (qualified_identifier
+      (namespace_identifier)
+      (type_identifier))
+    (init_declarator
+      (identifier)
+      (ccx_element
+        (ccx_opening_element
+          (ccx_tag_name))
+        (ccx_child
+          (ccx_expression_child
+            (ccx_if_expression
+              (parenthesized_expression
+                (identifier))
+              (ccx_body
+                (ccx_child
+                  (ccx_element
+                    (ccx_opening_element
+                      (ccx_tag_name))
+                    (ccx_child
+                      (ccx_text))
+                    (ccx_closing_element
+                      (ccx_tag_name)))))
+              (ccx_body
+                (ccx_child
+                  (ccx_element
+                    (ccx_opening_element
+                      (ccx_tag_name))
+                    (ccx_child
+                      (ccx_text))
+                    (ccx_closing_element
+                      (ccx_tag_name))))))))
+        (ccx_closing_element
+          (ccx_tag_name))))))
+
+================================================================================
+For range expression child
+================================================================================
+
+weasel::node n = <ul>{for (const auto& x : xs) {<li>{x}</li>}}</ul>;
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (declaration
+    (qualified_identifier
+      (namespace_identifier)
+      (type_identifier))
+    (init_declarator
+      (identifier)
+      (ccx_element
+        (ccx_opening_element
+          (ccx_tag_name))
+        (ccx_child
+          (ccx_expression_child
+            (ccx_for_range_expression
+              (type_qualifier)
+              (placeholder_type_specifier
+                (auto))
+              (reference_declarator
+                (identifier))
+              (identifier)
+              (ccx_body
+                (ccx_child
+                  (ccx_element
+                    (ccx_opening_element
+                      (ccx_tag_name))
+                    (ccx_child
+                      (ccx_expression_child
+                        (identifier)))
+                    (ccx_closing_element
+                      (ccx_tag_name))))))))
+        (ccx_closing_element
+          (ccx_tag_name))))))
+
+================================================================================
+While expression child
+================================================================================
+
+weasel::node n = <div>{while (running) {<br />}}</div>;
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (declaration
+    (qualified_identifier
+      (namespace_identifier)
+      (type_identifier))
+    (init_declarator
+      (identifier)
+      (ccx_element
+        (ccx_opening_element
+          (ccx_tag_name))
+        (ccx_child
+          (ccx_expression_child
+            (ccx_while_expression
+              (parenthesized_expression
+                (identifier))
+              (ccx_body
+                (ccx_child
+                  (ccx_self_closing_element
+                    (ccx_tag_name)))))))
+        (ccx_closing_element
+          (ccx_tag_name))))))
+
+================================================================================
+Kebab-case tag name
+================================================================================
+
+weasel::node n = <my-element />;
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (declaration
+    (qualified_identifier
+      (namespace_identifier)
+      (type_identifier))
+    (init_declarator
+      (identifier)
+      (ccx_self_closing_element
+        (ccx_tag_name)))))
+
+================================================================================
+Return statement with CCX
+================================================================================
+
+weasel::node foo() {
+    return <div>{x}</div>;
+}
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (function_definition
+    (qualified_identifier
+      (namespace_identifier)
+      (type_identifier))
+    (function_declarator
+      (identifier)
+      (parameter_list))
+    (compound_statement
+      (return_statement
+        (ccx_element
+          (ccx_opening_element
+            (ccx_tag_name))
+          (ccx_child
+            (ccx_expression_child
+              (identifier)))
+          (ccx_closing_element
+            (ccx_tag_name)))))))
+
+================================================================================
+Component with multiple attributes
+================================================================================
+
+weasel::node n = <MyCard title={x} color="blue" disabled />;
+
+--------------------------------------------------------------------------------
+
+(translation_unit
+  (declaration
+    (qualified_identifier
+      (namespace_identifier)
+      (type_identifier))
+    (init_declarator
+      (identifier)
+      (ccx_self_closing_element
+        (ccx_tag_name)
+        (ccx_attribute
+          (ccx_attribute_name)
+          (identifier))
+        (ccx_attribute
+          (ccx_attribute_name)
+          (string_literal
+            (string_content)))
+        (ccx_attribute
+          (ccx_attribute_name))))))
